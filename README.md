@@ -27,11 +27,11 @@ Arrange the folder structure according to the contents of [train.txt](https://dr
 ```yaml
 data:
   - 24:
-  	  - input:
-  	  - gt:
-  	  - input_raw:
-  	  - gt_raw:
-  	  - valid:
+      - input:
+      - gt:
+      - input_raw:
+      - gt_raw:
+      - valid:
   -23:
       - input:
       - gt:
