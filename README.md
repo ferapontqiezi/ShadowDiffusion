@@ -1,11 +1,8 @@
 # Shadow Diffusion for Maintaining Perceptual Quality
 
-This is a modified version of the code base for the following [paper]( https://arxiv.org/pdf/2207.14626.pdf ) to train and execute patch based diffusion model inference for image restoration under shadow conditions.
+Our method adopts a two-stage strategy for shadow removal, focusing on GPU’s memory efficiency and large image resolution. Before training, we use GAN to generate data. Initially, a conventional restoration model(NAFNet) is applied for preliminary shadow removal. Subsequently, leveraging WeatherDiffusion, we refine the results to address memory constraints and enhance image quality.
 
-"Restoring Vision in Adverse Weather Conditions with Patch-Based Denoising Diffusion Models"\
-<em>Ozan Özdenizci, Robert Legenstein</em>\
-IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI), 2023.\
-https://doi.org/10.1109/TPAMI.2023.3238179
+This is a modified version of the code base for the [WeatherDiffusion]( https://arxiv.org/pdf/2207.14626.pdf ) to train and execute patch based diffusion model inference for image restoration under shadow conditions.
 
 If you prefer not to spend time reviewing the code and training the model using the dataset, please follow the instructions provided in the **Configuration**, **Dataset** and **Restoration** guides to modify the paths and execute the code directly.
 
@@ -77,7 +74,7 @@ python weight.py
 
 ## Reference
 
-The citation for the paper from which the WeatherDiffusion code is used is as follows:
+The citation for the paper from which the WeatherDiffusion code is modified is as follows:
 ```
 @article{ozdenizci2023,
   title={Restoring vision in adverse weather conditions with patch-based denoising diffusion models},
