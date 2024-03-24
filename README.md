@@ -60,7 +60,7 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python train_diffusion.py --config "ntire2.yml" --r
 We share a pre-trained diffusive **multi-shadow** restoration model [ShadowDiff1](https://drive.google.com/file/d/1cm6MC5wxBBvr-wLsSZXE9cB0ZEAZ_Ka2/view?usp=sharing) and [ShadowDiff2](https://drive.google.com/file/d/1s4sNA9hLQOOxG5mx5JEmooVNRwV8lmEB/view?usp=sharing) with the network configuration in `configs/ntire1.yml` and `configs/ntire2.yml`. Then place ShadowDiff<sub>64</sub> in the root directory of the original code. To evaluate ShadowDiff<sub>64</sub> using the pre-trained model checkpoint with the current version of the repository: 
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 125 --grid_r 16
+CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 250 --grid_r 16
 ```
 
 For slightly improved results and enhanced image quality, consider using a larger value for `sampling_timesteps` and a smaller value for `grid_r`. For instance, the following command yields better image restoration results compared to the one provided earlier. Keep in mind that achieving better visual outcomes may require more computational time, so please be patient during the process.
