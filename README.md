@@ -1,6 +1,6 @@
 # Shadow Diffusion for Maintaining Perceptual Quality
 
-Our method adopts a two-stage strategy for shadow removal, focusing on GPU’s memory efficiency and large image resolution. Before training, we use GAN to generate data. Initially, a conventional restoration model(NAFNet) is applied for preliminary shadow removal. Subsequently, leveraging WeatherDiffusion, we refine the results to address memory constraints and enhance image quality.
+Our method adopts a two-stage strategy for shadow removal, focusing on GPU’s memory efficiency and large image resolution. Before training, we use [GAN](https://drive.google.com/file/d/1OTZMUbZWp1kq_OY_912Bwbc2Da0ZwfAR/view?usp=sharing) to generate data. Initially, a conventional restoration model [NAFNet](https://github.com/megvii-research/NAFNet) is applied for preliminary shadow removal. Subsequently, leveraging WeatherDiffusion, we refine the results to address memory constraints and enhance image quality.
 
 This is a modified version of the code base for the [WeatherDiffusion]( https://arxiv.org/pdf/2207.14626.pdf ) to train and execute patch based diffusion model inference for image restoration under shadow conditions.
 
