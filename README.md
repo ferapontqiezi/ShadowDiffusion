@@ -72,19 +72,6 @@ Finally, the [final result](https://drive.google.com/drive/folders/1n5Ik0P_4JLDk
 python weight.py
 ```
 
-## Reference
-
-The citation for the paper from which the WeatherDiffusion code is modified is as follows:
-```
-@article{ozdenizci2023,
-  title={Restoring vision in adverse weather conditions with patch-based denoising diffusion models},
-  author={Ozan \"{O}zdenizci and Robert Legenstein},
-  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence}, 
-  pages={1-12},
-  year={2023},
-  doi={10.1109/TPAMI.2023.3238179}
-}
-```
 
 ## Acknowledgments
 
@@ -93,5 +80,6 @@ Parts of this code repository is based on the following works:
 * https://github.com/ermongroup/ddim
 * https://github.com/bahjat-kawar/ddrm
 * https://github.com/JingyunLiang/SwinIR
-
+* https://github.com/IGITUGraz/WeatherDiffusion
+  
 Please feel free to contact me via email (ferapont@mail.ustc.edu.cn) if you have any inquiries, and I will endeavor to assist you to the best of my abilities.
