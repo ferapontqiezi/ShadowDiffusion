@@ -1,4 +1,5 @@
-# Shadow Diffusion for Maintaining Perceptual Quality
+# Shaffusion: Diffusion Based Two-Stage Refinement for High Resolution Image Shadow Removal
+
 
 Our method adopts a two-stage strategy for shadow removal, focusing on GPU’s memory efficiency and large image resolution. Before training, we use [GAN](https://drive.google.com/file/d/1OTZMUbZWp1kq_OY_912Bwbc2Da0ZwfAR/view?usp=sharing) to generate data. Initially, a conventional restoration model [NAFNet](https://github.com/megvii-research/NAFNet) is applied for preliminary shadow removal. Subsequently, leveraging WeatherDiffusion, we refine the results to address memory constraints and enhance image quality.
 
