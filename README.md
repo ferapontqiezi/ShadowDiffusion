@@ -61,11 +61,13 @@ We share a pre-trained diffusive **multi-shadow** restoration model [ShadowDiff1
 CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 25 --grid_r 16
 ```
 
-For slightly improved results and enhanced image quality, consider using a larger value for `sampling_timesteps` and a smaller value for `grid_r`. For instance, the following command yields better image restoration results compared to the one provided earlier. Keep in mind that achieving better visual outcomes may require more computational time, so please be patient during the process. Set $r=16$ as the default recommended configuration, and note that $r=8$ is an option for those who seek ultimate quality but are willing to sacrifice significant inference time
+For slightly improved results and enhanced image quality, consider using a larger value for `sampling_timesteps` and a smaller value for `grid_r`. For instance, the following command yields better image restoration results compared to the one provided earlier. Keep in mind that achieving better visual outcomes may require more computational time, so please be patient during the process.
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 250 --grid_r 8
+CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 50 --grid_r 8
 ```
+
+Set $r=16$ as the default recommended configuration, and note that $r=8$ is an option for those who seek ultimate quality but are willing to sacrifice significant inference time.
 
 Finally, the [final result](https://drive.google.com/drive/folders/1n5Ik0P_4JLDkyRpK9oTfBMdK_9X3LSNY?usp=sharing) is obtained by taking the weighted average of the test and finaltest, resulting in a significant improvement over the [final_test_data](https://codalab.lisn.upsaclay.fr/my/datasets/download/cc787344-dada-41b2-9a31-d789f26aa1e4).
 
