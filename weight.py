@@ -2,10 +2,13 @@ import os
 import cv2
 import numpy as np
 
-# define folder path
-image1_folder = './finaltest/'
-image2_folder = './test/'
-output_folder = './final_result/'
+# Expect eval outputs from:
+#   python eval_diffusion.py ... --test_set finaltest --output_name_format sequential
+#   python eval_diffusion.py ... --test_set test --output_name_format sequential
+# Stage2 png files land under <image_folder>/<test_set>/stage2/0000.png ...
+image1_folder = os.path.join("finaltest", "stage2")
+image2_folder = os.path.join("test", "stage2")
+output_folder = "./final_result/"
 
 # define weight
 weight_image1 = 0.5

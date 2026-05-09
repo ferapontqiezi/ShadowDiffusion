@@ -5,6 +5,25 @@ import torchvision
 import os
 
 
+def collated_label_to_str(y):
+    """Default DataLoader collate turns a batch of strings into a list."""
+    if isinstance(y, (list, tuple)):
+        if len(y) == 1:
+            return str(y[0])
+        return "_".join(str(item) for item in y)
+    return str(y)
+
+
+def output_save_name(args, index, image_id_str):
+    fmt = getattr(args, "output_name_format", "id")
+    if fmt == "sequential":
+        return f"{index:04d}.png"
+    safe = image_id_str.replace(os.sep, "_").replace("/", "_")
+    for ch in '\\:*?"<>|':
+        safe = safe.replace(ch, "_")
+    return f"{safe}_output.png"
+
+
 def data_transform(X):
     return 2 * X - 1.0
 
@@ -30,14 +49,14 @@ class DiffusiveRestoration:
         image_folder = os.path.join(self.args.image_folder, validation)
         with torch.no_grad():
             for i, (x, y) in enumerate(val_loader):
-                print(f"starting processing from image {y}")
+                y_str = collated_label_to_str(y)
+                print(f"starting processing from image {y_str}")
                 x = x.flatten(start_dim=0, end_dim=1) if x.ndim == 5 else x
                 x_cond = x[:, :3, :, :].to(self.diffusion.device)
                 x_output = self.diffusive_restoration(x_cond, r=r)
                 x_output = inverse_data_transform(x_output)
-                utils.logging.save_image(x_output, os.path.join(image_folder, f"{y}_output.png"))
-                #utils.logging.save_image(x_output, os.path.join("/root/autodl-tmp/ddpm/result_valid/", f"{y}_output.png"))
-                #utils.logging.save_image(x_output, os.path.join("/root/autodl-tmp/ddpm/result96/", f"{y}_output.png"))
+                name = output_save_name(self.args, i, y_str)
+                utils.logging.save_image(x_output, os.path.join(image_folder, name))
 
     def diffusive_restoration(self, x_cond, r=None):
         p_size = self.config.data.image_size
@@ -69,17 +88,17 @@ class DiffusiveRestoration1:
             print('Pre-trained diffusion model path is missing!')
 
     def restore(self, val_loader, validation='snow', r=None):
-        image_folder = os.path.join(self.args.image_folder, validation)
+        image_folder = os.path.join(self.args.image_folder, validation, "stage1")
         with torch.no_grad():
             for i, (x, y) in enumerate(val_loader):
-                print(f"starting processing from image {y}")
+                y_str = collated_label_to_str(y)
+                print(f"starting processing from image {y_str}")
                 x = x.flatten(start_dim=0, end_dim=1) if x.ndim == 5 else x
                 x_cond = x[:, :3, :, :].to(self.diffusion.device)
                 x_output = self.diffusive_restoration(x_cond, r=r)
                 x_output = inverse_data_transform(x_output)
-                utils.logging.save_image(x_output, os.path.join(image_folder, f"{y}_output.png"))
-                #utils.logging.save_image(x_output, os.path.join("/root/autodl-tmp/ddpm/result_valid/", f"{y}_output.png"))
-                #utils.logging.save_image(x_output, os.path.join("/root/autodl-tmp/ddpm/result96/", f"{y}_output.png"))
+                name = output_save_name(self.args, i, y_str)
+                utils.logging.save_image(x_output, os.path.join(image_folder, name))
 
     def diffusive_restoration(self, x_cond, r=None):
         p_size = self.config.data.image_size
@@ -111,17 +130,17 @@ class DiffusiveRestoration2:
             print('Pre-trained diffusion model path is missing!')
 
     def restore(self, val_loader, validation='snow', r=None):
-        image_folder = os.path.join(self.args.image_folder, validation)
+        image_folder = os.path.join(self.args.image_folder, validation, "stage2")
         with torch.no_grad():
             for i, (x, y) in enumerate(val_loader):
-                print(f"starting processing from image {y}")
+                y_str = collated_label_to_str(y)
+                print(f"starting processing from image {y_str}")
                 x = x.flatten(start_dim=0, end_dim=1) if x.ndim == 5 else x
                 x_cond = x[:, :3, :, :].to(self.diffusion.device)
                 x_output = self.diffusive_restoration(x_cond, r=r)
                 x_output = inverse_data_transform(x_output)
-                utils.logging.save_image(x_output, os.path.join(image_folder, f"{y}_output.png"))
-                #utils.logging.save_image(x_output, os.path.join("/root/autodl-tmp/ddpm/result_valid/", f"{y}_output.png"))
-                #utils.logging.save_image(x_output, os.path.join("/root/autodl-tmp/ddpm/result96/", f"{y}_output.png"))
+                name = output_save_name(self.args, i, y_str)
+                utils.logging.save_image(x_output, os.path.join(image_folder, name))
 
     def diffusive_restoration(self, x_cond, r=None):
         p_size = self.config.data.image_size

@@ -10,7 +10,6 @@ import torchvision
 import models
 import datasets
 import utils
-from torchsummary import summary
 #from models import DenoisingDiffusion, DiffusiveRestoration
 from models import DenoisingDiffusion1, DiffusiveRestoration1, DenoisingDiffusion2, DiffusiveRestoration2
 
@@ -37,6 +36,13 @@ def parse_args_and_config():
                         help="restoration test set options: ['raindrop', 'snow', 'rainfog']")
     parser.add_argument("--image_folder", default='./', type=str,
                         help="Location to save restored images")
+    parser.add_argument(
+        "--output_name_format",
+        type=str,
+        default="id",
+        choices=["id", "sequential"],
+        help="id: {img_id}_output.png; sequential: 0000.png for weight.py style naming",
+    )
     parser.add_argument('--seed', default=61, type=int, metavar='N',
                         help='Seed for initializing training (default: 61)')
     args = parser.parse_args()

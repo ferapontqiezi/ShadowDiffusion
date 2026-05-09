@@ -1,18 +1,18 @@
-# Shaffusion: Diffusion Based Two-Stage Refinement for High Resolution Image Shadow Removal
+# Balancing Deterministic Restoration and Perceptual Quality for
+Image Shadow Removal
 
+Our method adopts a two-stage strategy for shadow removal, with a focus on GPU memory efficiency and handling high-resolution images, balancing objective accuracy and subjective perception. Prior to training, we employ a GAN-based approach [GAN](https://drive.google.com/file/d/1OTZMUbZWp1kq_OY_912Bwbc2Da0ZwfAR/view?usp=sharing) to synthesize training data. In the first stage, a conventional restoration model, [NAFNet](https://github.com/megvii-research/NAFNet), is applied to perform preliminary shadow removal. In the second stage, we leverage WeatherDiffusion to refine the initial results, thereby addressing memory constraints and improving overall image quality.
 
-Our method adopts a two-stage strategy for shadow removal, focusing on GPU’s memory efficiency and large image resolution. Before training, we use [GAN](https://drive.google.com/file/d/1OTZMUbZWp1kq_OY_912Bwbc2Da0ZwfAR/view?usp=sharing) to generate data. Initially, a conventional restoration model [NAFNet](https://github.com/megvii-research/NAFNet) is applied for preliminary shadow removal. Subsequently, leveraging WeatherDiffusion, we refine the results to address memory constraints and enhance image quality.
+First Stage. We adopt an improved version of NAFNet as the global regression backbone. Unlike the original architecture, we remove all nonlinear activation functions and introduce two novel components: **Simple Channel Attention (SCA)** and **Simple Gating (SG)** modules, enabling more efficient feature re-weighting. To enhance robustness in challenging shadow regions, we further incorporate a GAN-based data augmentation strategy. This strategy pre-trains the regression anchor by synthesizing realistic shadow–clean image pairs, providing a more accurate reference for global illumination and color consistency in the subsequent refinement stage.
 
-This is a modified version of the code base for the [WeatherDiffusion]( https://arxiv.org/pdf/2207.14626.pdf ) to train and execute patch based diffusion model inference for image restoration under shadow conditions.
-
-If you prefer not to spend time reviewing the code and training the model using the dataset, please follow the instructions provided in the **Configuration**, **Dataset** and **Restoration** guides to modify the paths and execute the code directly.
+Implementation Note. This codebase is a modified version of [WeatherDiffusion]( https://arxiv.org/pdf/2207.14626.pdf ), adapted to train and execute patch-based diffusion model inference for shadow image restoration. For users who prefer to skip code review and model training, we provide step‑by‑step instructions in the **Configuration**, **Dataset**, and **Restoration** guides. Simply follow the guidance to modify the relevant paths and execute the code directly.
 
 ## Configuration
 
 Please navigate to the directory of the ShadowDiffusion source code and locate the file `configs/ntire1.yml` and `configs/ntire2.yml`. Then, modify the content under `data: data_dir` to match the path to your data folder. For example, if your final test dirctionary is `/root/ntire24/ShadowDiffusion`, you should modify like this:
 
 ```yml
-data：
+data:
 	data_dir: "/root/ntire24/ShadowDiffusion"
 ```
 
@@ -58,10 +58,10 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python train_diffusion.py --config "ntire2.yml" --r
 We share a pre-trained diffusive **multi-shadow** restoration model [ShadowDiff1](https://drive.google.com/file/d/1cm6MC5wxBBvr-wLsSZXE9cB0ZEAZ_Ka2/view?usp=sharing) and [ShadowDiff2](https://drive.google.com/file/d/1s4sNA9hLQOOxG5mx5JEmooVNRwV8lmEB/view?usp=sharing) with the network configuration in `configs/ntire1.yml` and `configs/ntire2.yml`. Then place ShadowDiff<sub>64</sub> in the root directory of the original code. To evaluate ShadowDiff<sub>64</sub> using the pre-trained model checkpoint with the current version of the repository: 
 
 ```bash
-CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 250 --grid_r 16
+CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 25 --grid_r 16
 ```
 
-For slightly improved results and enhanced image quality, consider using a larger value for `sampling_timesteps` and a smaller value for `grid_r`. For instance, the following command yields better image restoration results compared to the one provided earlier. Keep in mind that achieving better visual outcomes may require more computational time, so please be patient during the process.
+For slightly improved results and enhanced image quality, consider using a larger value for `sampling_timesteps` and a smaller value for `grid_r`. For instance, the following command yields better image restoration results compared to the one provided earlier. Keep in mind that achieving better visual outcomes may require more computational time, so please be patient during the process. Set $r=16$ as the default recommended configuration, and note that $r=8$ is an option for those who seek ultimate quality but are willing to sacrifice significant inference time
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python eval_diffusion.py --config1 "ntire1.yml" --config2 "ntire2.yml" --resume1 'ShadowDiff1_2000epochs.pth.tar' --resume2 'ShadowDiff2_2660epochs.pth.tar' --test_set 'finaltest' --sampling_timesteps 250 --grid_r 8
@@ -72,7 +72,6 @@ Finally, the [final result](https://drive.google.com/drive/folders/1n5Ik0P_4JLDk
 ```bash
 python weight.py
 ```
-
 
 ## Acknowledgments
 
